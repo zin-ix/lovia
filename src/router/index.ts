@@ -2,6 +2,8 @@ import { createRouter, createWebHistory } from 'vue-router'
 import Home from '@/pages/Home.vue'
 import Login from '@/pages/auth/Login.vue'
 import Register from '@/pages/auth/Register.vue'
+import ForgotPassword from '@/pages/auth/ForgotPassword.vue'
+import ResetPassword from '@/pages/auth/ResetPassword.vue'
 import LettersList from '@/pages/dashboard/LettersList.vue'
 import CreateLetter from '@/pages/dashboard/CreateLetter.vue'
 import TemplatesCatalog from '@/pages/dashboard/TemplatesCatalog.vue'
@@ -22,6 +24,8 @@ const router = createRouter({
     { path: '/', component: Home, name: 'Home' },
     { path: '/auth/login', component: Login, name: 'Login' },
     { path: '/auth/register', component: Register, name: 'Register' },
+    { path: '/auth/forgot-password', component: ForgotPassword, name: 'ForgotPassword' },
+    { path: '/auth/reset-password', component: ResetPassword, name: 'ResetPassword' },
 
     // User Dashboard Routes
     { path: '/dashboard', component: LettersList, name: 'Dashboard' },

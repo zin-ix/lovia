@@ -84,6 +84,45 @@ export const useAuthStore = defineStore('auth', () => {
     }
   }
 
+  const verifyOtp = async (email: string, token: string) => {
+    loading.value = true
+    error.value = null
+    try {
+      await AuthService.verifyOtp(email, token)
+    } catch (err: any) {
+      error.value = err.message || 'OTP verification failed'
+      throw err
+    } finally {
+      loading.value = false
+    }
+  }
+
+  const resendOtp = async (email: string) => {
+    loading.value = true
+    error.value = null
+    try {
+      await AuthService.resendOtp(email)
+    } catch (err: any) {
+      error.value = err.message || 'Failed to resend OTP'
+      throw err
+    } finally {
+      loading.value = false
+    }
+  }
+
+  const resetPasswordForEmail = async (email: string, redirectTo?: string) => {
+    loading.value = true
+    error.value = null
+    try {
+      await AuthService.resetPasswordForEmail(email, redirectTo)
+    } catch (err: any) {
+      error.value = err.message || 'Failed to send password reset email'
+      throw err
+    } finally {
+      loading.value = false
+    }
+  }
+
   const signIn = async (email: string, password: string) => {
     loading.value = true
     error.value = null
@@ -242,6 +281,9 @@ export const useAuthStore = defineStore('auth', () => {
     loading,
     error,
     signUp,
+    verifyOtp,
+    resendOtp,
+    resetPasswordForEmail,
     signIn,
     signOut,
     getSession,

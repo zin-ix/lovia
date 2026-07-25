@@ -12,6 +12,40 @@ export const AuthService = {
     }
   },
 
+  async verifyOtp(email: string, token: string, type: 'signup' | 'email_change' = 'signup') {
+    const { data, error } = await supabase.auth.verifyOtp({
+      email,
+      token,
+      type: type as any,
+    })
+    if (error) {
+      throw new Error(error.message)
+    }
+    return data
+  },
+
+  async resendOtp(email: string, type: 'signup' | 'email_change' = 'signup') {
+    const { data, error } = await supabase.auth.resend({
+      type,
+      email,
+    })
+    if (error) {
+      throw new Error(error.message)
+    }
+    return data
+  },
+
+  async resetPasswordForEmail(email: string, redirectTo?: string) {
+    const targetUrl = redirectTo || `${window.location.origin}/auth/reset-password`
+    const { data, error } = await supabase.auth.resetPasswordForEmail(email, {
+      redirectTo: targetUrl,
+    })
+    if (error) {
+      throw new Error(error.message)
+    }
+    return data
+  },
+
   async signIn(email: string, password: string) {
     const { data, error } = await supabase.auth.signInWithPassword({
       email,

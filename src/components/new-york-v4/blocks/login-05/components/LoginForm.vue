@@ -65,6 +65,7 @@ const handleBack = () => {
               <img :src="logo" alt="Lovia" class="h-10 w-auto" />
             </div>
           </a>
+          <div class="gap-5"></div>
           <FieldDescription> Sign in with your Lovia credentials </FieldDescription>
         </div>
 
@@ -76,7 +77,15 @@ const handleBack = () => {
         </div>
 
         <Field>
-          <FieldLabel for="email"> Email </FieldLabel>
+          <div class="flex items-center">
+            <FieldLabel for="email"> Email </FieldLabel>
+            <router-link
+              to="/auth/forgot-password"
+              class="ml-auto text-xs underline-offset-4 text-muted-foreground hover:text-primary hover:underline"
+            >
+              Forgot password?
+            </router-link>
+          </div>
           <Input id="email" v-model="email" type="email" placeholder="m@example.com" required />
         </Field>
         <Field>
@@ -103,6 +112,13 @@ const handleBack = () => {
             Continue with Google
           </Button>
         </Field>
+
+        <div class="text-center text-xs text-muted-foreground mt-2">
+          Don't have an account?
+          <router-link to="/auth/register" class="underline underline-offset-4 text-primary font-medium">
+            Sign up
+          </router-link>
+        </div>
       </FieldGroup>
     </form>
 
@@ -123,7 +139,6 @@ const handleBack = () => {
             </div>
             <span class="sr-only">Lovia</span>
           </a>
-          <h1 class="text-xl font-bold">Enter password</h1>
           <FieldDescription>
             Logging in as <strong>{{ email }}</strong>
           </FieldDescription>
@@ -139,9 +154,12 @@ const handleBack = () => {
         <Field>
           <div class="flex items-center">
             <FieldLabel for="password"> Password </FieldLabel>
-            <a href="#" class="ml-auto text-sm underline-offset-4 hover:underline">
+            <router-link
+              to="/auth/forgot-password"
+              class="ml-auto text-sm underline-offset-4 text-primary hover:underline"
+            >
               Forgot your password?
-            </a>
+            </router-link>
           </div>
           <Input
             id="password"

@@ -23,8 +23,21 @@ export const useTemplateStore = defineStore('template', () => {
   const getTemplate = (idOrSlug?: string): Template => {
     const fallback = BUILTIN_TEMPLATES[0] as Template
     if (!idOrSlug) return (templates.value[0] ?? fallback) as Template
-    const found = templates.value.find((t) => t.id === idOrSlug || t.slug === idOrSlug)
-    return (found ?? fallback) as Template
+    
+    // Search both loaded templates and built-in template catalog
+    const foundInState = templates.value.find((t) => t.id === idOrSlug || t.slug === idOrSlug)
+    const foundBuiltin = BUILTIN_TEMPLATES.find((t) => t.id === idOrSlug || t.slug === idOrSlug)
+    
+    const target = foundInState || foundBuiltin || fallback
+
+    // Ensure theme_config has all required styling variables from matching built-in template
+    const defaultTheme = (foundBuiltin || fallback).theme_config
+    const mergedTheme = { ...defaultTheme, ...(target.theme_config || {}) }
+
+    return {
+      ...target,
+      theme_config: mergedTheme,
+    }
   }
 
   return {

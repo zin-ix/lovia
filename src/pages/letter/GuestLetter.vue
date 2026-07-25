@@ -5,7 +5,9 @@ import { useLetterStore } from '@/stores/letter/letter.store'
 import { useTemplateStore } from '@/stores/template/template.store'
 import { useAudioPlayer } from '@/composables/useAudioPlayer'
 import LetterPreview from '@/components/letter/LetterPreview.vue'
-import { Play, Pause, Music2, AlertCircle, RefreshCw } from '@lucide/vue'
+import ShareModal from '@/components/letter/ShareModal.vue'
+import LetterQrModal from '@/components/common/LetterQrModal.vue'
+import { Play, Pause, Music2, AlertCircle, RefreshCw, Share2, QrCode } from '@lucide/vue'
 import type { Letter, LetterContent } from '@/types/letter.types'
 
 const route = useRoute()
@@ -16,6 +18,8 @@ const { initAudio, playAudio, toggleAudio, cleanupAudio, isPlaying, youtubeId } 
 const letter = ref<Letter | null>(null)
 const loading = ref(true)
 const error = ref<string | null>(null)
+const showShareModal = ref(false)
+const showQrModal = ref(false)
 
 // Fallback demo content if accessing sample directly
 const contentData = computed<LetterContent>(() => {
@@ -228,6 +232,45 @@ onUnmounted(() => {
           </span>
         </button>
       </div>
+
+      <!-- ── Floating Share & Keepsake Card Action Bar ── -->
+      <div class="fixed bottom-6 left-6 z-50 flex items-center gap-2">
+        <button
+          @click="showQrModal = true"
+          class="flex items-center gap-2 px-4 py-2.5 bg-gradient-to-r from-rose-500 to-pink-500 hover:from-rose-600 hover:to-pink-600 text-white backdrop-blur-md rounded-full shadow-xl text-xs font-semibold transition-all duration-300 cursor-pointer active:scale-95 border border-white/20"
+        >
+          <QrCode class="w-4 h-4" />
+          <span>Keepsake Card (PNG)</span>
+        </button>
+
+        <button
+          @click="showShareModal = true"
+          class="flex items-center gap-2 px-3.5 py-2.5 bg-white/95 dark:bg-slate-900/95 backdrop-blur-md text-gray-800 dark:text-white hover:text-rose-500 border border-black/10 dark:border-white/10 rounded-full shadow-xl text-xs font-semibold transition-all duration-300 cursor-pointer active:scale-95"
+        >
+          <Share2 class="w-4 h-4 text-rose-500" />
+          <span>Share</span>
+        </button>
+      </div>
+
+      <LetterQrModal
+        :open="showQrModal"
+        :letter="letter || {
+          id: 'demo',
+          title: contentData.heroTitle || 'Happy Birthday, My Love',
+          recipient_name: recipientName || 'My Love',
+          slug: route.params.slug as string || 'demo',
+        }"
+        @update:open="(val) => showQrModal = val"
+      />
+
+      <ShareModal
+        :open="showShareModal"
+        :recipient-name="recipientName"
+        :title="letter?.title || contentData.heroTitle"
+        :whisper="contentData.whisper"
+        :snippet="contentData.letterBodyParagraphs?.[0]"
+        @close="showShareModal = false"
+      />
 
       <LetterPreview
         :recipient-name="recipientName"

@@ -125,16 +125,18 @@ const openEnvelope = () => {
   hintVisible.value = false
   setTimeout(() => {
     flapOpen.value = true
-  }, 200)
+  }, 150)
   setTimeout(() => {
     opened.value = true
-    stageHidden.value = true
     emit('open:envelope')
     setTimeout(() => {
       const el = document.getElementById('page-2-letter')
       el?.scrollIntoView({ behavior: 'smooth', block: 'start' })
-    }, 100)
-  }, 1100)
+    }, 300)
+  }, 900)
+  setTimeout(() => {
+    stageHidden.value = true
+  }, 1700)
 }
 
 function verifyPasscode() {
@@ -362,102 +364,104 @@ onMounted(() => {
       </div>
       <div
         id="page-2-letter"
-        class="lp-page-card lp-page-2 transition-all duration-700"
+        class="lp-page-card lp-page-2 grid transition-[grid-template-rows,opacity,transform] duration-700 ease-[cubic-bezier(0.16,1,0.3,1)]"
         :class="{
-          'opacity-0 translate-y-8 max-h-0 overflow-hidden pointer-events-none border-none py-0 my-0': !editable && !opened,
-          'opacity-100 translate-y-0 max-h-[4000px]': editable || opened
+          'grid-rows-[0fr] opacity-0 translate-y-8 pointer-events-none border-none py-0 my-0': !editable && !opened,
+          'grid-rows-[1fr] opacity-100 translate-y-0': editable || opened
         }"
       >
-        <!-- Canva Page Header Badge (Editor mode) -->
-        <div v-if="editable" class="lp-page-label">
-          <span class="lp-badge-num">PAGE 2</span>
-          <span class="lp-badge-text">Love Letter</span>
-        </div>
-
-        <div class="lp-canvas">
-          <!-- ── Hero Section ── -->
-          <div class="lp-section">
-            <div
-              class="lp-eyebrow"
-              :contenteditable="editable"
-              @focus="onFocusEl('heroEyebrow', 'Eyebrow')"
-              @blur="(e) => onBlurInput('heroEyebrow', e)"
-              :class="{ 'lp-edit': editable, 'lp-selected': isSelected('heroEyebrow') }"
-            >
-              {{ content.heroEyebrow || 'with love' }}
-            </div>
-            <h1
-              class="lp-hero-title"
-              :contenteditable="editable"
-              @focus="onFocusEl('heroTitle', 'Heading')"
-              @blur="(e) => onBlurInput('heroTitle', e)"
-              :class="{ 'lp-edit': editable, 'lp-selected': isSelected('heroTitle') }"
-            >
-              {{ content.heroTitle || 'Happy birthday, my love.' }}
-            </h1>
-            <p
-              class="lp-hero-sub"
-              :contenteditable="editable"
-              @focus="onFocusEl('heroSubtitle', 'Subtitle')"
-              @blur="(e) => onBlurInput('heroSubtitle', e)"
-              :class="{ 'lp-edit': editable, 'lp-selected': isSelected('heroSubtitle') }"
-            >
-              {{
-                content.heroSubtitle ||
-                'Every moment with you feels like the beginning of something beautiful.'
-              }}
-            </p>
+        <div class="overflow-hidden min-h-0 w-full">
+          <!-- Canva Page Header Badge (Editor mode) -->
+          <div v-if="editable" class="lp-page-label">
+            <span class="lp-badge-num">PAGE 2</span>
+            <span class="lp-badge-text">Love Letter</span>
           </div>
 
-          <!-- Soft pink divider line -->
-          <div class="lp-divider" />
-
-          <!-- ── Letter Body Section ── -->
-          <div class="lp-section">
-            <div
-              class="lp-eyebrow"
-              :contenteditable="editable"
-              @focus="onFocusEl('letterEyebrow', 'Section Label')"
-              @blur="(e) => onBlurInput('letterEyebrow', e)"
-              :class="{ 'lp-edit': editable, 'lp-selected': isSelected('letterEyebrow') }"
-            >
-              {{ content.letterEyebrow || 'a letter for you' }}
-            </div>
-
-            <div
-              class="lp-greeting"
-              :contenteditable="editable"
-              @focus="onFocusEl('greeting', 'Greeting')"
-              @blur="(e) => onBlurInput('greeting', e)"
-              :class="{ 'lp-edit': editable, 'lp-selected': isSelected('greeting') }"
-            >
-              {{ content.greeting || 'My love,' }}
-            </div>
-
-            <div class="lp-body-text">
-              <p
-                v-for="(para, i) in content.letterBodyParagraphs"
-                :key="i"
+          <div class="lp-canvas">
+            <!-- ── Hero Section ── -->
+            <div class="lp-section">
+              <div
+                class="lp-eyebrow"
                 :contenteditable="editable"
-                @focus="onFocusEl('letterBodyParagraphs-' + i, 'Letter Body')"
-                @blur="(e) => onBlurInput('letterBodyParagraphs', e, i)"
-                :class="{
-                  'lp-edit': editable,
-                  'lp-selected': isSelected('letterBodyParagraphs-' + i),
-                }"
+                @focus="onFocusEl('heroEyebrow', 'Eyebrow')"
+                @blur="(e) => onBlurInput('heroEyebrow', e)"
+                :class="{ 'lp-edit': editable, 'lp-selected': isSelected('heroEyebrow') }"
               >
-                {{ para }}
+                {{ content.heroEyebrow || 'with love' }}
+              </div>
+              <h1
+                class="lp-hero-title"
+                :contenteditable="editable"
+                @focus="onFocusEl('heroTitle', 'Heading')"
+                @blur="(e) => onBlurInput('heroTitle', e)"
+                :class="{ 'lp-edit': editable, 'lp-selected': isSelected('heroTitle') }"
+              >
+                {{ content.heroTitle || 'Happy birthday, my love.' }}
+              </h1>
+              <p
+                class="lp-hero-sub"
+                :contenteditable="editable"
+                @focus="onFocusEl('heroSubtitle', 'Subtitle')"
+                @blur="(e) => onBlurInput('heroSubtitle', e)"
+                :class="{ 'lp-edit': editable, 'lp-selected': isSelected('heroSubtitle') }"
+              >
+                {{
+                  content.heroSubtitle ||
+                  'Every moment with you feels like the beginning of something beautiful.'
+                }}
               </p>
             </div>
 
-            <div
-              class="lp-signoff"
-              :contenteditable="editable"
-              @focus="onFocusEl('signoff', 'Sign-off')"
-              @blur="(e) => onBlurInput('signoff', e)"
-              :class="{ 'lp-edit': editable, 'lp-selected': isSelected('signoff') }"
-            >
-              {{ content.signoff || 'yours, always' }}
+            <!-- Soft pink divider line -->
+            <div class="lp-divider" />
+
+            <!-- ── Letter Body Section ── -->
+            <div class="lp-section">
+              <div
+                class="lp-eyebrow"
+                :contenteditable="editable"
+                @focus="onFocusEl('letterEyebrow', 'Section Label')"
+                @blur="(e) => onBlurInput('letterEyebrow', e)"
+                :class="{ 'lp-edit': editable, 'lp-selected': isSelected('letterEyebrow') }"
+              >
+                {{ content.letterEyebrow || 'a letter for you' }}
+              </div>
+
+              <div
+                class="lp-greeting"
+                :contenteditable="editable"
+                @focus="onFocusEl('greeting', 'Greeting')"
+                @blur="(e) => onBlurInput('greeting', e)"
+                :class="{ 'lp-edit': editable, 'lp-selected': isSelected('greeting') }"
+              >
+                {{ content.greeting || 'My love,' }}
+              </div>
+
+              <div class="lp-body-text">
+                <p
+                  v-for="(para, i) in content.letterBodyParagraphs"
+                  :key="i"
+                  :contenteditable="editable"
+                  @focus="onFocusEl('letterBodyParagraphs-' + i, 'Letter Body')"
+                  @blur="(e) => onBlurInput('letterBodyParagraphs', e, i)"
+                  :class="{
+                    'lp-edit': editable,
+                    'lp-selected': isSelected('letterBodyParagraphs-' + i),
+                  }"
+                >
+                  {{ para }}
+                </p>
+              </div>
+
+              <div
+                class="lp-signoff"
+                :contenteditable="editable"
+                @focus="onFocusEl('signoff', 'Sign-off')"
+                @blur="(e) => onBlurInput('signoff', e)"
+                :class="{ 'lp-edit': editable, 'lp-selected': isSelected('signoff') }"
+              >
+                {{ content.signoff || 'yours, always' }}
+              </div>
             </div>
           </div>
         </div>
@@ -672,7 +676,15 @@ onMounted(() => {
   z-index: 3;
 }
 .lp-stage-out {
-  display: none !important;
+  opacity: 0 !important;
+  transform: translateY(-20px) scale(0.96) !important;
+  max-height: 0 !important;
+  padding: 0 !important;
+  margin: 0 !important;
+  overflow: hidden !important;
+  pointer-events: none !important;
+  border: none !important;
+  transition: all 0.8s cubic-bezier(0.16, 1, 0.3, 1) !important;
 }
 
 .lp-whisper {
@@ -707,6 +719,8 @@ onMounted(() => {
   position: relative;
   width: 220px;
   height: 155px;
+  overflow: hidden;
+  border-radius: 6px;
   filter: drop-shadow(0 6px 20px rgba(0, 0, 0, 0.12));
   transition:
     filter 0.3s ease,
@@ -717,16 +731,17 @@ onMounted(() => {
   transform: translateY(-2px);
 }
 
-/* Envelope back body — simple blush pink */
+/* Envelope back body — dynamic theme background */
 .lp-env-body {
   position: absolute;
   inset: 0;
-  background: #fce7f3;
-  border: 1.5px solid #fbcfe8;
+  background: var(--paper-shadow);
+  border: 1.5px solid var(--line);
   border-radius: 6px;
+  z-index: 1;
 }
 
-/* Bottom fold triangles — slightly deeper pink */
+/* Bottom fold triangles — dynamic theme colors */
 .lp-fold-left {
   position: absolute;
   left: 0;
@@ -735,8 +750,9 @@ onMounted(() => {
   height: 0;
   border-style: solid;
   border-width: 77px 0 0 110px;
-  border-color: transparent transparent transparent #fbcfe8;
+  border-color: transparent transparent transparent var(--blossom);
   opacity: 0.6;
+  z-index: 3;
 }
 .lp-fold-right {
   position: absolute;
@@ -746,8 +762,9 @@ onMounted(() => {
   height: 0;
   border-style: solid;
   border-width: 77px 110px 0 0;
-  border-color: transparent #fbcfe8 transparent transparent;
+  border-color: transparent var(--blossom) transparent transparent;
   opacity: 0.6;
+  z-index: 3;
 }
 .lp-fold-bottom {
   position: absolute;
@@ -757,11 +774,12 @@ onMounted(() => {
   height: 0;
   border-style: solid;
   border-width: 0 110px 62px 110px;
-  border-color: transparent transparent #f9a8d4 transparent;
+  border-color: transparent transparent var(--blossom-deep) transparent;
   opacity: 0.4;
+  z-index: 3;
 }
 
-/* Flap — top pink triangle */
+/* Flap — top theme triangle */
 .lp-flap {
   position: absolute;
   left: 0;
@@ -770,7 +788,7 @@ onMounted(() => {
   height: 0;
   border-style: solid;
   border-width: 80px 110px 0 110px;
-  border-color: #f9a8d4 transparent transparent transparent;
+  border-color: var(--blossom-deep) transparent transparent transparent;
   opacity: 0.8;
   transform-origin: top center;
   transition:
@@ -780,7 +798,8 @@ onMounted(() => {
 }
 .lp-flap-open {
   transform: rotateX(180deg);
-  opacity: 0.35;
+  opacity: 0.2;
+  z-index: 1;
 }
 
 /* Paper peeking out of envelope */
@@ -790,8 +809,8 @@ onMounted(() => {
   right: 16px;
   bottom: 10px;
   height: 88px;
-  background: #ffffff;
-  border: 1px solid #fce7e7;
+  background: var(--paper);
+  border: 1px solid var(--line);
   border-radius: 4px;
   padding: 0.5rem 0.65rem 0.35rem;
   z-index: 2;
@@ -813,7 +832,7 @@ onMounted(() => {
 }
 .lp-peek-line {
   height: 1px;
-  background: #fce7e7;
+  background: var(--line);
   margin: 0.25rem 0;
 }
 .lp-peek-line-short {
@@ -822,7 +841,7 @@ onMounted(() => {
 .lp-peek-snippet {
   font-size: 0.43rem;
   font-style: italic;
-  color: #9ca3af;
+  color: var(--ink-soft);
   line-height: 1.4;
   overflow: hidden;
   display: -webkit-box;
@@ -831,7 +850,7 @@ onMounted(() => {
   margin-top: 0.35rem;
 }
 
-/* ── Heart Seal ── */
+/* ── Heart / Custom Seal ── */
 .lp-heart-seal {
   position: absolute;
   left: 50%;
@@ -839,16 +858,16 @@ onMounted(() => {
   transform: translate(-50%, -50%);
   width: 46px;
   height: 46px;
-  background: #ffffff;
+  background: var(--paper);
   border-radius: 50%;
-  border: 2px solid #fbcfe8;
+  border: 2px solid var(--blossom);
   display: flex;
   align-items: center;
   justify-content: center;
   z-index: 6;
   box-shadow:
-    0 2px 12px rgba(244, 63, 94, 0.2),
-    0 0 0 4px rgba(255, 255, 255, 0.9);
+    0 2px 12px rgba(0, 0, 0, 0.15),
+    0 0 0 4px var(--paper);
   transition:
     transform 0.4s ease,
     opacity 0.3s ease;
