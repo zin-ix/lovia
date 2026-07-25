@@ -74,6 +74,18 @@ const musicTitle = computed(() => {
 onMounted(async () => {
   await templateStore.fetchTemplates()
 
+  const enableAutoplayFallback = () => {
+    const enableAutoplay = () => {
+      if (!isPlaying.value) {
+        playAudio()
+      }
+      window.removeEventListener('click', enableAutoplay)
+      window.removeEventListener('touchstart', enableAutoplay)
+    }
+    window.addEventListener('click', enableAutoplay, { once: true })
+    window.addEventListener('touchstart', enableAutoplay, { once: true })
+  }
+
   const slug = route.params.slug as string
   if (slug && slug !== 'demo') {
     loading.value = true
@@ -82,25 +94,34 @@ onMounted(async () => {
       letter.value = fetched
       if (fetched.music_url) {
         initAudio(fetched.music_url)
-        // Auto-play immediately on load
         playAudio()
-
-        // Fallback: If browser blocked initial unprompted autoplay, play on first user interaction anywhere
-        const enableAutoplay = () => {
-          if (!isPlaying.value) {
-            playAudio()
-          }
-          window.removeEventListener('click', enableAutoplay)
-          window.removeEventListener('touchstart', enableAutoplay)
-        }
-        window.addEventListener('click', enableAutoplay, { once: true })
-        window.addEventListener('touchstart', enableAutoplay, { once: true })
+        enableAutoplayFallback()
       }
     } else {
       error.value = 'This letter could not be found or has expired.'
     }
     loading.value = false
   } else {
+    // Demo Mode
+    const demoMusic = 'https://youtu.be/CgjknaWVChY?si=d5a0Oha9T-jps8I6'
+    letter.value = {
+      id: 'demo-letter',
+      user_id: 'demo-user',
+      slug: 'demo',
+      title: 'Demo Keepsake',
+      recipient_name: 'My Love',
+      music_url: demoMusic,
+      music_title: 'Romantic Song',
+      content: contentData.value,
+      is_active: true,
+      created_at: new Date().toISOString(),
+      updated_at: new Date().toISOString(),
+    } as any
+
+    initAudio(demoMusic)
+    playAudio()
+    enableAutoplayFallback()
+
     loading.value = false
   }
 })

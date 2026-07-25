@@ -13,4 +13,18 @@ export default defineConfig({
       '@': fileURLToPath(new URL('./src', import.meta.url)),
     },
   },
+  build: {
+    chunkSizeWarningLimit: 1000,
+    rollupOptions: {
+      output: {
+        manualChunks(id) {
+          if (id.includes('node_modules')) {
+            if (id.includes('@supabase') || id.includes('supabase')) return 'supabase'
+            if (id.includes('@lucide') || id.includes('lucide-vue')) return 'lucide'
+            if (id.includes('vue') || id.includes('pinia') || id.includes('vue-router')) return 'vendor-vue'
+          }
+        },
+      },
+    },
+  },
 })
