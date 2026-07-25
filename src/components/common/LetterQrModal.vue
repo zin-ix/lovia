@@ -190,11 +190,11 @@ async function downloadPngCard() {
         </div>
 
         <!-- Footer Action Buttons (Hidden on Print) -->
-        <div class="flex flex-wrap items-center justify-between gap-3 pt-2 print:hidden">
-          <div class="flex items-center gap-2">
+        <div class="grid grid-cols-2 sm:flex sm:items-center sm:justify-between gap-2.5 pt-2 print:hidden">
+          <div class="grid grid-cols-2 col-span-2 sm:flex sm:items-center gap-2">
             <button
               @click="copyLetterLink"
-              class="px-3.5 py-2 bg-gray-100 hover:bg-gray-200 text-gray-700 rounded-xl text-xs font-semibold transition flex items-center gap-1.5 cursor-pointer"
+              class="w-full sm:w-auto px-3.5 py-2.5 bg-gray-100 hover:bg-gray-200 text-gray-700 rounded-xl text-xs font-semibold transition flex items-center justify-center gap-1.5 cursor-pointer"
             >
               <component :is="copiedLink ? Check : Copy" class="w-3.5 h-3.5 text-rose-500" />
               <span>{{ copiedLink ? 'Link Copied!' : 'Copy Link' }}</span>
@@ -202,18 +202,18 @@ async function downloadPngCard() {
 
             <button
               @click="copyQrUrl"
-              class="px-3.5 py-2 bg-gray-100 hover:bg-gray-200 text-gray-700 rounded-xl text-xs font-semibold transition flex items-center gap-1.5 cursor-pointer"
+              class="w-full sm:w-auto px-3.5 py-2.5 bg-gray-100 hover:bg-gray-200 text-gray-700 rounded-xl text-xs font-semibold transition flex items-center justify-center gap-1.5 cursor-pointer"
             >
               <component :is="copiedQr ? Check : QrCode" class="w-3.5 h-3.5 text-rose-500" />
               <span>{{ copiedQr ? 'QR Link Copied!' : 'Copy QR Image' }}</span>
             </button>
           </div>
 
-          <div class="flex items-center gap-2">
+          <div class="grid grid-cols-2 col-span-2 sm:flex sm:items-center gap-2">
             <button
               @click="downloadPngCard"
               :disabled="downloadingPng"
-              class="px-3.5 py-2 bg-rose-50 hover:bg-rose-100 text-rose-600 rounded-xl text-xs font-semibold transition flex items-center gap-1.5 cursor-pointer disabled:opacity-50"
+              class="w-full sm:w-auto px-3.5 py-2.5 bg-rose-50 hover:bg-rose-100 text-rose-600 rounded-xl text-xs font-semibold transition flex items-center justify-center gap-1.5 cursor-pointer disabled:opacity-50"
             >
               <Download class="w-3.5 h-3.5" />
               <span>{{ downloadingPng ? 'Saving PNG...' : 'Download PNG Card' }}</span>
@@ -221,10 +221,10 @@ async function downloadPngCard() {
 
             <button
               @click="handlePrint"
-              class="px-4 py-2 bg-rose-500 hover:bg-rose-600 text-white rounded-xl text-xs font-semibold shadow-xs transition flex items-center gap-1.5 cursor-pointer"
+              class="w-full sm:w-auto px-4 py-2.5 bg-rose-500 hover:bg-rose-600 text-white rounded-xl text-xs font-semibold shadow-xs transition flex items-center justify-center gap-1.5 cursor-pointer"
             >
               <Printer class="w-3.5 h-3.5" />
-              <span>Print Landscape Card</span>
+              <span>Print Card</span>
             </button>
           </div>
         </div>
