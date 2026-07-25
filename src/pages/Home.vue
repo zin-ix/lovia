@@ -139,7 +139,7 @@ const faqs = [
   <div class="min-h-screen bg-[#fafafc] text-[#1d1d1f] flex flex-col font-sans selection:bg-rose-100 selection:text-rose-900">
     <!-- Apple Frosted Glass Navbar -->
     <header class="w-full bg-white/80 backdrop-blur-md border-b border-black/5 sticky top-0 z-50 h-14">
-      <div class="max-w-5xl mx-auto px-6 h-full flex items-center justify-between">
+      <div class="w-full px-6 sm:px-8 lg:px-12 h-full flex items-center justify-between">
         <router-link to="/" class="flex items-center gap-2">
           <img :src="logoWithWord" alt="Lovia" class="h-5.5 w-auto object-contain" />
         </router-link>
@@ -419,7 +419,7 @@ const faqs = [
 
     <!-- Apple-Style Minimal Footer -->
     <footer class="w-full bg-white border-t border-gray-100 py-6 text-xs text-gray-400">
-      <div class="max-w-5xl mx-auto px-6 flex flex-col sm:flex-row items-center justify-between gap-3">
+      <div class="w-full px-6 sm:px-8 lg:px-12 flex flex-col sm:flex-row items-center justify-between gap-3">
         <div class="flex items-center gap-2">
           <img :src="logoWithWord" alt="Lovia" class="h-4.5 w-auto object-contain opacity-75" />
           <span class="text-gray-200">|</span>
